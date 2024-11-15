@@ -3,8 +3,9 @@ const axios = require('axios');
 const path = require('path');
 
 const app = express();
-const PORT = 3000;
 
+// Use the PORT environment variable for Azure, defaulting to 3000 for local development
+const PORT = process.env.PORT || 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -31,6 +32,7 @@ app.get('/get-symbols', async (req, res) => {
     }
 });
 
+// Listen on the dynamic port set by Azure
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });
