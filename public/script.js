@@ -9,7 +9,11 @@ window.onload = function () {
     fetch('/get-symbols')
         .then(response => response.json())
         .then(symbols => {
-        // Create two cards for each symbol (Objective 1)
+            // Create two cards for each symbol (Objective 1)
+            symbols.forEach(symbol => {
+                cards.push(createCard(symbol));
+                cards.push(createCard(symbol));
+            });
 
             shuffle(cards);
             cards.forEach(card => {
@@ -33,7 +37,10 @@ window.onload = function () {
     }
 
     function shuffle(array) {
-    // Shuffle the array using the Fisher-Yates algorithm (Objective 2)
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
     }
 
     let flippedCards = [];
@@ -52,6 +59,13 @@ window.onload = function () {
         const [card1, card2] = flippedCards;
 
         // Check if the two flipped cards have the same symbol (Objective 3)
+        if (card1.dataset.symbol === card2.dataset.symbol) {
+            card1.classList.add('matched');
+            card2.classList.add('matched');
+        } else {
+            card1.classList.remove('flipped');
+            card2.classList.remove('flipped');
+        }
 
         flippedCards = [];
         checkWin();
@@ -59,7 +73,10 @@ window.onload = function () {
 
 
     function checkWin() {
-    // Check if all cards are matched (Objective 4)
+        const matchedCards = document.querySelectorAll('.matched');
+        if (matchedCards.length === cards.length) {
+            document.getElementById('win-message').style.display = 'block';
+        }
     }
 };
 

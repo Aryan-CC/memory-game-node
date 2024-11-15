@@ -8,7 +8,9 @@ const PORT = 3000;
 
 app.use(express.static(path.join(__dirname, 'public')));
 
-// create a route handler that serves an index.html file located in the public folder (Objective 5)
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
 
 app.get('/get-symbols', async (req, res) => {
     const url = 'https://rawcdn.githack.com/akabab/starwars-api/0.2.1/api/all.json';
